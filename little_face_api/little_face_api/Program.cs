@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using little_face_api.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<little_face_DBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("little_face_DBContext") ?? throw new InvalidOperationException("Connection string 'little_face_DBContext' not found.")));
 
 // Add services to the container.
 
