@@ -15,10 +15,16 @@ namespace little_face_api.Data
         }
 
         public DbSet<little_face_api.Data.Models.Client> Clients { get; set; } = default!;
+        public DbSet<little_face_api.Data.Models.UserRole> UserRoles { get; set; } = default!;
+
+        public DbSet<little_face_api.Data.Models.User> Users { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Client>().ToTable(nameof(Client));           
+            modelBuilder.Entity<Client>().ToTable(nameof(Client));
+            modelBuilder.Entity<UserRole>().ToTable(nameof(UserRole));
+            modelBuilder.Entity<User>().ToTable(nameof(User));
+
 
             base.OnModelCreating(modelBuilder);
         }
