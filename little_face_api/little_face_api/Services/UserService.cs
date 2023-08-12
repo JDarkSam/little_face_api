@@ -21,7 +21,7 @@ namespace little_face_api.Services
             {
                 return null;
             }
-            var user = await _context.Users.FirstOrDefaultAsync(user => user.UserName == username && user.Password == password);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(user => user.UserName == username && user.Password == password);
 
             return user;
         }

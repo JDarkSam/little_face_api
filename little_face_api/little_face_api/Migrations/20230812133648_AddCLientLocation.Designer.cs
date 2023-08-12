@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using little_face_api.Data;
 
@@ -10,9 +11,11 @@ using little_face_api.Data;
 namespace little_face_api.Migrations
 {
     [DbContext(typeof(little_face_DBContext))]
-    partial class little_face_DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230812133648_AddCLientLocation")]
+    partial class AddCLientLocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
