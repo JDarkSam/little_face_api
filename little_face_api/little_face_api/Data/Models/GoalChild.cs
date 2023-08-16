@@ -3,22 +3,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace little_face_api.Data.Models
 {
-    public class Child
+    public class GoalChild
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
         [Required]
-        public string Names { get; set; }
+        public int Face { get; set; }
 
         [Required]
-        public string Surnames { get; set; }
+        public DateTime DateGoal { get; set; }
 
-        [Required]
-        public int Age { get; set; }
+        public long ChildId { get; set; }
 
-        [Required]
-        public string Alias { get; set; }
+        [ForeignKey(nameof(ChildId))]
+        public virtual Child Child { get; set; }
+
+        public long GoalId { get; set; }
+
+        [ForeignKey(nameof(GoalId))]
+        public virtual Goal Goal { get; set; }
+
 
         public long UserId { get; set; }
 
