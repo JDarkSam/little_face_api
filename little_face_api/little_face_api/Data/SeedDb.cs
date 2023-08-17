@@ -78,6 +78,27 @@ namespace little_face_api.Data
                 await this.context.SaveChangesAsync();
             }
 
+            if (!this.context.GoalChilds.Any())
+            {
+                //1 carita feliz 
+                //2 carita triste 
+                //0 sin carita 
+
+                this.AddGoalChild(1, Convert.ToDateTime("14/08/2023"), 1, 1, 1);
+                this.AddGoalChild(2, Convert.ToDateTime("14/08/2023"), 1, 2, 1);
+                this.AddGoalChild(0, Convert.ToDateTime("14/08/2023"), 1, 3, 1);
+
+                this.AddGoalChild(1, Convert.ToDateTime("15/08/2023"), 1, 4, 1);
+                this.AddGoalChild(2, Convert.ToDateTime("15/08/2023"), 1, 5, 1);
+                this.AddGoalChild(0, Convert.ToDateTime("15/08/2023"), 1, 6, 1);
+
+                this.AddGoalChild(1, Convert.ToDateTime("16/08/2023"), 1, 7, 1);
+                this.AddGoalChild(2, Convert.ToDateTime("16/08/2023"), 1, 8, 1);
+                this.AddGoalChild(0, Convert.ToDateTime("16/08/2023"), 1, 8, 1);
+
+                await this.context.SaveChangesAsync();
+            }
+
         }
 
         private void AddClient(string name)
@@ -137,6 +158,18 @@ namespace little_face_api.Data
                 NumberFaceBad = numberFaceBad,
                 ValidateFaceGood = validateFaceGood,
                 Recompense = recompense,
+                UserId = userId
+            });
+        }
+
+        private void AddGoalChild(int face, DateTime dateGoal, long childId, long goalId, long userId)
+        {
+            this.context.GoalChilds.Add(new Models.GoalChild
+            {
+                Face = face,
+                DateGoal = dateGoal,
+                ChildId = childId,
+                GoalId = goalId,
                 UserId = userId
             });
         }

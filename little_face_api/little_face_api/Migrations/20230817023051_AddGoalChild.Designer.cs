@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using little_face_api.Data;
 
@@ -11,9 +12,11 @@ using little_face_api.Data;
 namespace little_face_api.Migrations
 {
     [DbContext(typeof(little_face_DBContext))]
-    partial class little_face_DBContextModelSnapshot : ModelSnapshot
+    [Migration("20230817023051_AddGoalChild")]
+    partial class AddGoalChild
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,13 +251,13 @@ namespace little_face_api.Migrations
                     b.HasOne("little_face_api.Data.Models.Goal", "Goal")
                         .WithMany()
                         .HasForeignKey("GoalId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("little_face_api.Data.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Child");

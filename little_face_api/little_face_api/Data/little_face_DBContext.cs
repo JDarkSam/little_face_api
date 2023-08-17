@@ -37,6 +37,8 @@ namespace little_face_api.Data
             modelBuilder.Entity<Reward>().ToTable(nameof(Reward));
             modelBuilder.Entity<GoalChild>().ToTable(nameof(GoalChild));
 
+
+
             base.OnModelCreating(modelBuilder);
         }
 
