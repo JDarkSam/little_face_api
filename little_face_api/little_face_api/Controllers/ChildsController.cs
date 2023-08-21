@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using little_face_api.Data;
 using little_face_api.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace little_face_api.Controllers
 {
@@ -23,17 +24,24 @@ namespace little_face_api.Controllers
 
         // GET: api/Childs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Child>>> GetChilds()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<Child>>> GetChildsByUser(long userId)
         {
-          if (_context.Childs == null)
-          {
-              return NotFound();
-          }
-            return await _context.Childs.Include(u => u.User).ToListAsync();
+            if (_context.Childs == null)
+            {
+                return NotFound();
+            }          
+
+            return await _context.Childs
+                       .Where(p => p.UserId == userId)
+                       .ToListAsync();
+
         }
+ 
 
         // GET: api/Childs/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Child>> GetChild(long id)
         {
           if (_context.Childs == null)
@@ -53,6 +61,7 @@ namespace little_face_api.Controllers
         // PUT: api/Childs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutChild(long id, Child child)
         {
             if (id != child.Id)
@@ -84,6 +93,7 @@ namespace little_face_api.Controllers
         // POST: api/Childs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Child>> PostChild(Child child)
         {
           if (_context.Childs == null)
@@ -98,6 +108,7 @@ namespace little_face_api.Controllers
 
         // DELETE: api/Childs/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteChild(long id)
         {
             if (_context.Childs == null)

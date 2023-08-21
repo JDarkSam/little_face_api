@@ -34,7 +34,8 @@ namespace little_face_api.Controllers
             {
                 UserName = user.UserName,
                 Role = user.Role,
-                Token = token
+                Token = token,
+                Id = user.Id
             };
 
             return Ok(userDto);
