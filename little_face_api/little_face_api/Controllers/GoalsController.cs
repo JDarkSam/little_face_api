@@ -23,13 +23,16 @@ namespace little_face_api.Controllers
 
         // GET: api/Goals
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Goal>>> GetGoals()
+        public async Task<ActionResult<IEnumerable<Goal>>> GetGoalsByUser(long userId)
         {
-          if (_context.Goals == null)
-          {
-              return NotFound();
-          }
-            return await _context.Goals.Include(u => u.User).ToListAsync();
+            if (_context.Goals == null)
+            {
+                return NotFound();
+            }
+
+            return await _context.Goals
+                       .Where(p => p.UserId == userId)
+                       .ToListAsync();
         }
 
         // GET: api/Goals/5
