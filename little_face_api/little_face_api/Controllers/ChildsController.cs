@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using little_face_api.Data;
 using little_face_api.Data.Models;
 using Microsoft.AspNetCore.Authorization;
+using little_face_api.Data.Dto;
 
 namespace little_face_api.Controllers
 {
@@ -94,16 +95,28 @@ namespace little_face_api.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Child>> PostChild(Child child)
+        public async Task<ActionResult<Child>> PostChild(ChildDto child)
         {
           if (_context.Childs == null)
           {
               return Problem("Entity set 'little_face_DBContext.Childs'  is null.");
           }
-            _context.Childs.Add(child);
+
+
+            Child Resultado = new Child()
+            {
+                UserId = child.UserId,
+                Names = child.Names,
+                Surnames = child.Surnames,
+                Age = child.Age,
+                Alias = child.Alias,
+                User = this._context.Users.Where(x => x.Id == child.UserId).FirstOrDefault()
+            };
+
+            _context.Childs.Add(Resultado);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetChild", new { id = child.Id }, child);
+            return CreatedAtAction("GetChild", new { id = Resultado.Id }, Resultado);
         }
 
         // DELETE: api/Childs/5
