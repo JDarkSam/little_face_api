@@ -6,7 +6,8 @@ namespace little_face_api.Data.Dto
 {
     public class ChildDto
     {
-      
+        public long Id { get; set; }
+
         [Required]
         public string Names { get; set; }
 
