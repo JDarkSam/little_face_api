@@ -63,32 +63,54 @@ namespace little_face_api.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutChild(long id, Child child)
+        public async Task<IActionResult> PutChild(long id, ChildDto child)
         {
-            if (id != child.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(child).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (id != child.Id)
+                {
+                    return BadRequest();
+                }
+
+                Child Resultado = new Child()
+                {
+                    Id = child.Id,
+                    UserId = child.UserId,
+                    Names = child.Names,
+                    Surnames = child.Surnames,
+                    Age = child.Age,
+                    Alias = child.Alias,
+                    User = this._context.Users.Where(x => x.Id == child.UserId).FirstOrDefault()
+                };
+
+
+                _context.Entry(Resultado).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ChildExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!ChildExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                var mensaje = ex.Message;
+                throw;
             }
 
-            return NoContent();
+           
         }
 
         // POST: api/Childs
