@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using little_face_api.Data;
 using little_face_api.Data.Models;
+using little_face_api.Data.Dto;
+using Microsoft.Identity.Client;
 
 namespace little_face_api.Controllers
 {
@@ -21,15 +23,36 @@ namespace little_face_api.Controllers
             _context = context;
         }
 
+      
         // GET: api/GoalChilds
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GoalChild>>> GetGoalChilds()
+        public async Task<ActionResult<IEnumerable<GoalChildDto>>> GetGoalChilds(long userId, long childId)
         {
-          if (_context.GoalChilds == null)
-          {
-              return NotFound();
-          }
-            return await _context.GoalChilds.Include(u => u.Child).ToListAsync();
+            if (_context.GoalChilds == null)
+            {
+                return NotFound();
+            }          
+
+            var query = from gc in _context.GoalChilds
+                        join c in _context.Childs on gc.ChildId equals c.Id
+                        join g in _context.Goals on gc.GoalId equals g.Id
+                        where gc.UserId == userId && gc.ChildId == childId
+                        select new GoalChildDto
+                        {
+                            Id = gc.Id,
+                            Face = gc.Face,
+                            DateGoal = gc.DateGoal,
+                            ChildId = gc.Id,
+                            Alias = c.Alias,
+                            GoalId = gc.GoalId,
+                            Taskname = g.Taskname,
+                            UserId = gc.UserId
+                        };
+            query.ToList();
+
+            List<GoalChildDto> goalChildDto= new List<GoalChildDto>(query);
+
+            return goalChildDto;
         }
 
         // GET: api/GoalChilds/5
