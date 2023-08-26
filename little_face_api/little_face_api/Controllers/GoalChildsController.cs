@@ -9,6 +9,7 @@ using little_face_api.Data;
 using little_face_api.Data.Models;
 using little_face_api.Data.Dto;
 using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.Authorization;
 
 namespace little_face_api.Controllers
 {
@@ -26,6 +27,7 @@ namespace little_face_api.Controllers
       
         // GET: api/GoalChilds
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<GoalChildDto>>> GetGoalChilds(long userId, long childId)
         {
             if (_context.GoalChilds == null)
@@ -57,6 +59,7 @@ namespace little_face_api.Controllers
 
         // GET: api/GoalChilds/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<GoalChild>> GetGoalChild(long id)
         {
           if (_context.GoalChilds == null)
@@ -76,6 +79,7 @@ namespace little_face_api.Controllers
         // PUT: api/GoalChilds/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutGoalChild(long id, GoalChild goalChild)
         {
             if (id != goalChild.Id)
@@ -107,6 +111,7 @@ namespace little_face_api.Controllers
         // POST: api/GoalChilds
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<GoalChild>> PostGoalChild(GoalChild goalChild)
         {
           if (_context.GoalChilds == null)
@@ -121,6 +126,7 @@ namespace little_face_api.Controllers
 
         // DELETE: api/GoalChilds/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteGoalChild(long id)
         {
             if (_context.GoalChilds == null)
